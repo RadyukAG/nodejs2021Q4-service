@@ -1,6 +1,15 @@
 const { PORT } = require('./common/config');
 const app = require('./app');
+const addResources = require('./addResources');
 
-app.listen(PORT, () =>
-  console.log(`App is running on http://localhost:${PORT}`)
-);
+addResources();
+const startServer = async() => {
+  try {
+    await app.listen(PORT);
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+};
+
+startServer();
