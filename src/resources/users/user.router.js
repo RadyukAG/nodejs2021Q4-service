@@ -1,4 +1,3 @@
-// const User = require('./user.model');
 const usersService = require('./user.service');
 const app = require('../../app');
 const URLS = require('../../common/urls');
