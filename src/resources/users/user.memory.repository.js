@@ -1,7 +1,3 @@
-const getAll = async () => {}
-  // TODO: mock implementation. should be replaced during task development
-;
-
 class UsersRepo {
   constructor() {
     this.repo = {};
@@ -25,11 +21,18 @@ class UsersRepo {
       ...this.repo[user.id],
       ...user,
     }
+    return this.repo[user.id];
   }
 
   deleteUser(id) {
-    this.repo[id] = undefined;
+    if (this.repo[id]) {
+      this.repo[id] = undefined;
+      return true;
+    }
+    return false;
   }
 }
 
-module.exports = { getAll, UsersRepo };
+const usersRepo = new UsersRepo();
+
+module.exports = usersRepo;

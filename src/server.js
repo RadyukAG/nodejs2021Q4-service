@@ -1,6 +1,7 @@
 const { PORT } = require('./common/config');
 const app = require('./app');
 const addResources = require('./addResources');
+require('./resources/users/user.router');
 
 addResources();
 const startServer = async() => {
