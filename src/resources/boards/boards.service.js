@@ -8,7 +8,10 @@ const addBoard = (board) => {
 
 const getAllBoards = () => boardsRepo.getAllItems();
 
+const getBoard = (id) => boardsRepo.getItem(id);
+
 module.exports = {
     addBoard,
     getAllBoards,
+    getBoard,
 };
