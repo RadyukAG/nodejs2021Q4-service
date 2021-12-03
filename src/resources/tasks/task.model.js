@@ -16,6 +16,14 @@ class Task {
     getTask() {
         return this.task;
     }
+
+    static toResponse(task) {
+        return {
+            ...task,
+            columnId: undefined,
+            boardId: undefined,
+        };
+    }
 };
 
 module.exports = Task;

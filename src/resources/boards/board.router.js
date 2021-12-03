@@ -20,9 +20,9 @@ const boardBodySchema = {
     }
 }
   
-  const schema = {
+const schema = {
     body: boardBodySchema
-  }
+}
 
 app.post(URLS.BOARDS, { schema }, async (request, reply) => {
     try {
@@ -52,8 +52,8 @@ app.get(URLS.BOARDS_PARAM, async (request, reply) => {
     try {
         const board = boardsService.getBoard(request.params.id);
         if (!board) {
-            reply.code(400);
-            reply.send('User not found');
+            reply.code(404);
+            reply.send('Board not found');
         } else {
             reply.code(200);
             reply.header('Content-Type', 'application/json; charset=utf-8');
@@ -90,8 +90,7 @@ app.delete(URLS.BOARDS_PARAM, (request, reply) => {
             return;
         }
         boardsService.deleteBoard(request.params.id);
-        reply.code(204);
-        reply.send('The board has been deleted');
+        reply.code(204).send();
     } catch (err) {
         app.log.error(`Error occurred: ${err.message}`);
         reply.code(500).send();

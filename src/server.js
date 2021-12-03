@@ -3,6 +3,7 @@ const app = require('./app');
 const addResources = require('./addResources');
 require('./resources/users/user.router');
 require('./resources/boards/board.router');
+require('./resources/tasks/task.router');
 
 addResources();
 const startServer = async() => {
