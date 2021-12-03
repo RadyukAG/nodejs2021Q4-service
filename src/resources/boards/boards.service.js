@@ -10,8 +10,14 @@ const getAllBoards = () => boardsRepo.getAllItems();
 
 const getBoard = (id) => boardsRepo.getItem(id);
 
+const updateBoard = (id, board) => boardsRepo.updateItem({ ...board, id });
+
+const isBoardExists = (id) => boardsRepo.checkItem(id);
+
 module.exports = {
     addBoard,
     getAllBoards,
     getBoard,
+    updateBoard,
+    isBoardExists,
 };

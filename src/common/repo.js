@@ -30,6 +30,10 @@ class Repo {
         return true;
       }
       return false;
+    };
+
+    checkItem (id) {
+      return !!this.repo[id];
     }
 };
 

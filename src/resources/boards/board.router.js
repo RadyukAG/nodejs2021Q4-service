@@ -64,3 +64,20 @@ app.get(URLS.BOARDS_PARAM, async (request, reply) => {
         reply.code(500).send();
     }
 });
+
+app.put(URLS.BOARDS_PARAM, { schema }, async (request, reply) => {
+    try {
+        if (!boardsService.isBoardExists(request.params.id)) {
+            reply.code(400);
+            reply.send('Bad request');
+            return;
+        }
+        const result = boardsService.updateBoard(request.params.id, request.body);
+        reply.code(200);
+        reply.header('Content-Type', 'application/json; charset=utf-8');
+        reply.send(result);
+    } catch (err) {
+        app.log.error(`Error occurred: ${err.message}`);
+        reply.code(500).send();
+    }
+});
