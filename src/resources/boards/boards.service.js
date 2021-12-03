@@ -14,10 +14,13 @@ const updateBoard = (id, board) => boardsRepo.updateItem({ ...board, id });
 
 const isBoardExists = (id) => boardsRepo.checkItem(id);
 
+const deleteBoard = (id) => boardsRepo.deleteItem(id);
+
 module.exports = {
     addBoard,
     getAllBoards,
     getBoard,
     updateBoard,
     isBoardExists,
+    deleteBoard,
 };

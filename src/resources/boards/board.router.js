@@ -81,3 +81,19 @@ app.put(URLS.BOARDS_PARAM, { schema }, async (request, reply) => {
         reply.code(500).send();
     }
 });
+
+app.delete(URLS.BOARDS_PARAM, (request, reply) => {
+    try {
+        if (!boardsService.isBoardExists(request.params.id)) {
+            reply.code(404);
+            reply.send('Board not found');
+            return;
+        }
+        boardsService.deleteBoard(request.params.id);
+        reply.code(204);
+        reply.send('The board has been deleted');
+    } catch (err) {
+        app.log.error(`Error occurred: ${err.message}`);
+        reply.code(500).send();
+    }
+});
