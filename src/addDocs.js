@@ -1,4 +1,5 @@
 const path = require('path');
+const swagger = require('fastify-swagger');
 const app = require('./app');
 const URLS = require('./common/urls');
 
@@ -12,7 +13,7 @@ const swaggerOptions = {
 }
 
 const addDocs = () => {
-    app.register(require('fastify-swagger'), swaggerOptions);
+    app.register(swagger, swaggerOptions);
 }
 
 module.exports = addDocs;

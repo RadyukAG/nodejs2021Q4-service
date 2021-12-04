@@ -63,3 +63,19 @@ app.get(URLS.TASKS_PARAM, async (request, reply) => {
         reply.code(500).send();
     }
 });
+
+app.delete(URLS.TASKS_PARAM, async (request, reply) => {
+    try {
+        const { boardId, taskId } = request.params;
+        if (!tasksService.isTaskExists(boardId, taskId)) {
+            reply.code(404);
+            reply.send('Task not found');
+            return;
+        }
+        tasksService.deleteTask(boardId, taskId);
+        reply.code(204).send();
+    } catch(err) {
+        app.log.error(`Error occurred: ${err.message}`);
+        reply.code(500).send();
+    }
+});
