@@ -34,6 +34,10 @@ class Repo {
 
     checkItem (id) {
       return !!this.repo[id];
+    };
+
+    deleteAllItems() {
+      this.repo = {};
     }
 };
 

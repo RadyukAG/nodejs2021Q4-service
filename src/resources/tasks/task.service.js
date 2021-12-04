@@ -6,9 +6,12 @@ const addTask = (task) => {
     return tasksRepo.getTasksRepo(newTask.boardId).addItem(newTask);
 };
 
-const addTasksByBoardId = (boardId) => tasksRepo.getTasksRepo(boardId).getAllItems()
+const addTasksByBoardId = (boardId) => tasksRepo.getTasksRepo(boardId).getAllItems();
+
+const getTaskById = (boardId, taskId) => tasksRepo.getTasksRepo(boardId).getItem(taskId);
 
 module.exports = {
     addTask,
     addTasksByBoardId,
+    getTaskById,
 }

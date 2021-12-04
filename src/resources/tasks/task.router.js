@@ -46,3 +46,20 @@ app.get(URLS.TASKS, async (request, reply) => {
         reply.code(500).send();
     }
 });
+
+app.get(URLS.TASKS_PARAM, async (request, reply) => {
+    try {
+        const task = tasksService.getTaskById(request.params.boardId, request.params.taskId);
+        if (!task) {
+            reply.code(404);
+            reply.send('Task not found');
+        } else {
+            reply.code(200);
+            reply.header('Content-Type', 'application/json; charset=utf-8');
+            reply.send(task);
+        }    
+    } catch(err) {
+        app.log.error(`Error occurred: ${err.message}`);
+        reply.code(500).send();
+    }
+});

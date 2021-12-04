@@ -91,6 +91,7 @@ describe('Boards suite', () => {
           expect(res.body.id).to.be.a('string');
           jestExpect(res.body).toMatchObject(TEST_BOARD_DATA);
         });
+        
       // Teardown
       await request.delete(routes.boards.delete(boardId));
     });
