@@ -14,10 +14,13 @@ const getTaskById = (boardId, taskId) => tasksRepo.getTasksRepo(boardId).getItem
 
 const deleteTask = (boardId, taskId) => tasksRepo.getTasksRepo(boardId).deleteItem(taskId);
 
+const updateTask = (task) => tasksRepo.getTasksRepo(task.boardId).updateItem(task);
+
 module.exports = {
     addTask,
     addTasksByBoardId,
     getTaskById,
     deleteTask,
     isTaskExists,
+    updateTask,
 }
