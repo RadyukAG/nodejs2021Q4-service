@@ -2,6 +2,7 @@ const usersService = require('./user.service');
 const app = require('../../app');
 const URLS = require('../../common/urls');
 const User = require('./user.model');
+const tasksService = require('../tasks/task.service');
 
 const addUserRequestBodySchema = {
   type: 'object',
@@ -76,6 +77,10 @@ app.delete(URLS.GET_USER, async (request, reply) => {
     if (!result) {
       reply.code(404).send('User not found');
     } else {
+      const userTasks = tasksService.getTasksByField('userId', request.params.id);
+      if (userTasks) {
+        userTasks.forEach(task => tasksService.deleteTask(task.boardId, task.id));
+      }
       reply.code(204).send();
     }
   } catch(err) {

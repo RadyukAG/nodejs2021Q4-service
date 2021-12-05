@@ -26,7 +26,7 @@ class Repo {
   
     deleteItem(id) {
       if (this.repo[id]) {
-        this.repo[id] = undefined;
+        this.repo[id] = null;
         return true;
       }
       return false;
@@ -38,6 +38,10 @@ class Repo {
 
     deleteAllItems() {
       this.repo = {};
+    }
+
+    getItemsByFieldValue(field, value) {
+      return Object.values(this.repo).filter(item => item[field] === value);
     }
 };
 

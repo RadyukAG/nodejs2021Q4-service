@@ -16,6 +16,10 @@ class TasksRepo {
 
     getTasksRepo(boardId) {
         return this.checkIfBoardTasksRepoExist(boardId) ? this.repo[boardId] : this.createRepoForBoard(boardId);
+    };
+
+    getAllBoards() {
+        return Object.values(this.repo);
     }
 }
 

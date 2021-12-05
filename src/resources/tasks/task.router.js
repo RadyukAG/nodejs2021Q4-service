@@ -4,14 +4,13 @@ const tasksService = require('./task.service');
 
 const taskBodySchema = {
     type: 'object',
-    required: ['title', 'order', 'columnId', 'description', 'userId', 'boardId'],
+    required: ['title', 'order', 'description', 'userId', 'boardId'],
     properties: {
         title: { type: 'string' },
         order: { type: 'integer' },
         description: { type: 'string' },
         userId: { type: ['string', 'null'] },
         boardId: { type: ['string', 'null'] },
-        columnId: { type: ['string', 'null'] },
     }
 }
   
@@ -48,9 +47,8 @@ app.get(URLS.TASKS, async (request, reply) => {
 
 app.get(URLS.TASKS_PARAM, async (request, reply) => {
     try {
-        console.log(request.params.boardId, request.params.taskId);
+console.log(request.params.boardId, request.params.taskId);
         const task = tasksService.getTaskById(request.params.boardId, request.params.taskId);
-        console.log(task);
         if (!task) {
             reply.code(404);
             reply.send('Task not found');

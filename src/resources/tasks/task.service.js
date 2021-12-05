@@ -16,6 +16,8 @@ const deleteTask = (boardId, taskId) => tasksRepo.getTasksRepo(boardId).deleteIt
 
 const updateTask = (task) => tasksRepo.getTasksRepo(task.boardId).updateItem(task);
 
+const getTasksByField = (field, value) => tasksRepo.getAllBoards().map(repo => repo.getItemsByFieldValue(field, value)).flat(); 
+
 module.exports = {
     addTask,
     addTasksByBoardId,
@@ -23,4 +25,5 @@ module.exports = {
     deleteTask,
     isTaskExists,
     updateTask,
+    getTasksByField,
 }
