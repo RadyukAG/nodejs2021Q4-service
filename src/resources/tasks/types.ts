@@ -8,7 +8,7 @@ interface DraftTask {
     columnId: string | null;
 }
 
-interface Task extends DraftTask {
+interface ITask extends DraftTask {
     id: string;
 }
 
@@ -22,7 +22,7 @@ interface FullTaskParams extends TaskParamsWithBoardId {
 
 export {
     DraftTask,
-    Task,
+    ITask,
     FullTaskParams,
     TaskParamsWithBoardId,
 };

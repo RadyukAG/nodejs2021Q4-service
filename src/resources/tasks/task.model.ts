@@ -1,6 +1,9 @@
-import { uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
+import { DraftTask, ITask } from './types';
 
 class Task {
+    task: ITask;
+
     constructor({
         id = uuidv4(),
         title = 'Title',
@@ -9,7 +12,7 @@ class Task {
         userId = 'UserId',
         boardId = 'BoardId',
         columnId = 'ColumnId',
-    }) {
+    }: DraftTask) {
         this.task = { id, title, order, description, userId, boardId, columnId };
     }
 
@@ -17,7 +20,7 @@ class Task {
         return this.task;
     }
 
-    static toResponse(task) {
+    static toResponse(task: ITask) {
         return {
             ...task,
             columnId: undefined,

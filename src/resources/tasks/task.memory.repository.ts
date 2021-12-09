@@ -1,20 +1,24 @@
 import Repo from '../../common/repo';
 
 class TasksRepo {
+    repo: {
+        [id: string]: Repo;
+    }
+
     constructor() {
         this.repo = {}
     };
 
-    createRepoForBoard(boardId) {
+    createRepoForBoard(boardId: string) {
         this.repo[boardId] = new Repo();
         return this.repo[boardId];
     };
 
-    checkIfBoardTasksRepoExist(boardId) {
+    checkIfBoardTasksRepoExist(boardId: string) {
         return !!this.repo[boardId];
     };
 
-    getTasksRepo(boardId) {
+    getTasksRepo(boardId: string) {
         return this.checkIfBoardTasksRepoExist(boardId) ? this.repo[boardId] : this.createRepoForBoard(boardId);
     };
 
