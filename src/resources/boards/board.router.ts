@@ -1,6 +1,7 @@
 import * as boardsService from './boards.service';
 import app from '../../app';
 import URLS from '../../common/urls';
+import { BoardParamsWithId, IBoard, IDraftBoard } from './types';
 
 const boardBodySchema = {
     type: 'object',
@@ -24,14 +25,16 @@ const schema = {
     body: boardBodySchema
 }
 
-app.post(URLS.BOARDS, { schema }, async (request, reply) => {
+app.post<{ Body: IDraftBoard }>(URLS.BOARDS, { schema }, async (request, reply) => {
     try {
         const result = boardsService.addBoard(request.body);
         reply.code(201);
         reply.header('Content-Type', 'application/json; charset=utf-8');
         reply.send(result);
     } catch (err) {
-        app.log.error(`Error occurred: ${err.message}`);
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });
@@ -43,12 +46,14 @@ app.get(URLS.BOARDS, async (request, reply) => {
         reply.header('Content-Type', 'application/json; charset=utf-8');
         reply.send(boards);
     } catch (err) {
-        app.log.error(`Error occurred: ${err.message}`);
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });
 
-app.get(URLS.BOARDS_PARAM, async (request, reply) => {
+app.get<{ Params: BoardParamsWithId }>(URLS.BOARDS_PARAM, async (request, reply) => {
     try {
         const board = boardsService.getBoard(request.params.id);
         if (!board) {
@@ -60,12 +65,14 @@ app.get(URLS.BOARDS_PARAM, async (request, reply) => {
             reply.send(board);
         }
     } catch (err) {
-        app.log.error(`Error occurred: ${err.message}`);
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });
 
-app.put(URLS.BOARDS_PARAM, { schema }, async (request, reply) => {
+app.put<{ Params: BoardParamsWithId, Body: IBoard}>(URLS.BOARDS_PARAM, { schema }, async (request, reply) => {
     try {
         if (!boardsService.isBoardExists(request.params.id)) {
             reply.code(400);
@@ -77,12 +84,14 @@ app.put(URLS.BOARDS_PARAM, { schema }, async (request, reply) => {
         reply.header('Content-Type', 'application/json; charset=utf-8');
         reply.send(result);
     } catch (err) {
-        app.log.error(`Error occurred: ${err.message}`);
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });
 
-app.delete(URLS.BOARDS_PARAM, (request, reply) => {
+app.delete<{ Params: BoardParamsWithId }>(URLS.BOARDS_PARAM, (request, reply) => {
     try {
         if (!boardsService.isBoardExists(request.params.id)) {
             reply.code(404);
@@ -92,7 +101,9 @@ app.delete(URLS.BOARDS_PARAM, (request, reply) => {
         boardsService.deleteBoard(request.params.id);
         reply.code(204).send();
     } catch (err) {
-        app.log.error(`Error occurred: ${err.message}`);
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });

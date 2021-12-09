@@ -1,9 +1,17 @@
+import { IBoard } from '../resources/boards/types';
+
+type Item = IBoard | null;
+
 class Repo {
+  repo: {
+    [id: string]: IBoard | null ;
+  }
+
     constructor() {
       this.repo = {};
     }
   
-    addItem(item) {
+    addItem(item: IBoard) {
       this.repo[item.id] = item;
       return this.repo[item.id];
     }
@@ -12,11 +20,11 @@ class Repo {
       return Object.values(this.repo);
     }
   
-    getItem(id) {
+    getItem(id: string) {
       return this.repo[id];
     }
   
-    updateItem(item) {
+    updateItem(item: IBoard) {
       this.repo[item.id] = {
         ...this.repo[item.id],
         ...item,
@@ -24,7 +32,7 @@ class Repo {
       return this.repo[item.id];
     }
   
-    deleteItem(id) {
+    deleteItem(id: string) {
       if (this.repo[id]) {
         this.repo[id] = null;
         return true;
@@ -32,7 +40,7 @@ class Repo {
       return false;
     };
 
-    checkItem (id) {
+    checkItem (id: string) {
       return !!this.repo[id];
     };
 
@@ -40,8 +48,13 @@ class Repo {
       this.repo = {};
     }
 
-    getItemsByFieldValue(field, value) {
-      return Object.values(this.repo).filter(item => item[field] === value);
+    getItemsByFieldValue(field: keyof Item, value: string | null) {
+      return Object.values(this.repo).filter(item => {
+        if (item) {
+          return item[field] === value as unknown;
+        }
+        return false;
+      });
     }
 };
 
