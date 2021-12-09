@@ -1,5 +1,5 @@
-const tasksRepo = require('./task.memory.repository');
-const Task = require('./task.model');
+import tasksRepo from './task.memory.repository';
+import Task from './task.model';
 
 const addTask = (task) => {
     const newTask = new Task(task).getTask();
@@ -18,7 +18,7 @@ const updateTask = (task) => tasksRepo.getTasksRepo(task.boardId).updateItem(tas
 
 const getTasksByField = (field: string, value: string) => tasksRepo.getAllBoards().map(repo => repo.getItemsByFieldValue(field, value)).flat(); 
 
-module.exports = {
+export {
     addTask,
     addTasksByBoardId,
     getTaskById,
@@ -26,4 +26,4 @@ module.exports = {
     isTaskExists,
     updateTask,
     getTasksByField,
-}
+};

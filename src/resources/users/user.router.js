@@ -1,8 +1,8 @@
-const usersService = require('./user.service');
-const app = require('../../app');
-const URLS = require('../../common/urls');
-const User = require('./user.model');
-const tasksService = require('../tasks/task.service');
+import * as usersService from './user.service';
+import app from '../../app';
+import URLS from '../../common/urls';
+import User from './user.model';
+import * as tasksService from '../tasks/task.service';
 
 const addUserRequestBodySchema = {
   type: 'object',

@@ -1,6 +1,6 @@
-const boardsService = require('./boards.service');
-const app = require('../../app');
-const URLS = require('../../common/urls');
+import * as boardsService from './boards.service';
+import app from '../../app';
+import URLS from '../../common/urls';
 
 const boardBodySchema = {
     type: 'object',

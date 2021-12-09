@@ -1,4 +1,4 @@
-const addDocs = require('./addDocs');
+import addDocs from './addDocs';
 
 const addResources = () => {
     addDocs();

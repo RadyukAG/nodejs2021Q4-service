@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
+import { uuidv4 } from 'uuid';
 
 class User {
   // interface User {
@@ -32,4 +32,4 @@ class User {
   }
 }
 
-module.exports = User;
+export default User;

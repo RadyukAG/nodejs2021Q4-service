@@ -1,8 +1,8 @@
-const app = require('../../app');
-const URLS = require('../../common/urls');
-const tasksService = require('./task.service');
 import { FastifyReply } from 'fastify';
-import { TaskRequestWithParams, CreateTaskRequest, TaskRequestWithBody, TaskRequestWithBoardId } from './types';
+import { DraftTask, FullTaskParams, TaskParamsWithBoardId, Task } from './types';
+import app from '../../app';
+import URLS from '../../common/urls';
+import * as tasksService from './task.service';
 
 const taskBodySchema = {
     type: 'object',
@@ -20,7 +20,7 @@ const schema = {
     body: taskBodySchema
 }
 
-app.post(URLS.TASKS, { schema }, async (request: CreateTaskRequest, reply: FastifyReply) => {
+app.post<{ Params: FullTaskParams, Body: DraftTask }>(URLS.TASKS, { schema }, async (request, reply: FastifyReply) => {
     try {
       const result = tasksService.addTask({
           ...request.body,
@@ -37,7 +37,7 @@ app.post(URLS.TASKS, { schema }, async (request: CreateTaskRequest, reply: Fasti
     }
 });
 
-app.get(URLS.TASKS, async (request: TaskRequestWithBoardId, reply: FastifyReply) => {
+app.get<{ Params: TaskParamsWithBoardId }>(URLS.TASKS, async (request, reply: FastifyReply) => {
     try {
         const result = tasksService.addTasksByBoardId(request.params.boardId);
         reply.code(200);
@@ -51,7 +51,7 @@ app.get(URLS.TASKS, async (request: TaskRequestWithBoardId, reply: FastifyReply)
     }
 });
 
-app.get(URLS.TASKS_PARAM, async (request: TaskRequestWithParams, reply: FastifyReply) => {
+app.get<{ Params: FullTaskParams }>(URLS.TASKS_PARAM, async (request, reply: FastifyReply) => {
     try {
         const task = tasksService.getTaskById(request.params.boardId, request.params.taskId);
         if (!task) {
@@ -70,7 +70,7 @@ app.get(URLS.TASKS_PARAM, async (request: TaskRequestWithParams, reply: FastifyR
     }
 });
 
-app.delete(URLS.TASKS_PARAM, async (request: TaskRequestWithParams, reply: FastifyReply) => {
+app.delete<{ Params: FullTaskParams }>(URLS.TASKS_PARAM, async (request, reply: FastifyReply) => {
     try {
         const { boardId, taskId } = request.params;
         if (!tasksService.isTaskExists(boardId, taskId)) {
@@ -88,7 +88,7 @@ app.delete(URLS.TASKS_PARAM, async (request: TaskRequestWithParams, reply: Fasti
     }
 });
 
-app.put(URLS.TASKS_PARAM, { schema }, async (request: TaskRequestWithBody, reply: FastifyReply) => {
+app.put<{ Params: FullTaskParams, Body: Task }>(URLS.TASKS_PARAM, { schema }, async (request, reply: FastifyReply) => {
     try { 
         const { boardId, taskId } = request.params;
         if (!tasksService.isTaskExists(boardId, taskId)) {

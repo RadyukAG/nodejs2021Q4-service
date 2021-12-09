@@ -1,6 +1,6 @@
-const boardsRepo = require('./board.memory.repository');
-const Board = require('./board.model');
-const tasksRepo = require('../tasks/task.memory.repository');
+import boardsRepo from './board.memory.repository';
+import Board from './board.model';
+import tasksRepo from '../tasks/task.memory.repository';
 
 const addBoard = (board) => {
     const newBoard = new Board(board).getBoard();
@@ -20,7 +20,7 @@ const deleteBoard = (id) => {
     tasksRepo.getTasksRepo(id).deleteAllItems();
 };
 
-module.exports = {
+export {
     addBoard,
     getAllBoards,
     getBoard,

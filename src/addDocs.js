@@ -1,7 +1,7 @@
-const path = require('path');
-const swagger = require('fastify-swagger');
-const app = require('./app');
-const URLS = require('./common/urls');
+import path from 'path';
+import swagger from 'fastify-swagger';
+import app from './app';
+import URLS from './common/urls';
 
 const swaggerOptions = {
     mode: 'static',
@@ -16,4 +16,4 @@ const addDocs = () => {
     app.register(swagger, swaggerOptions);
 }
 
-module.exports = addDocs;
+export default addDocs;

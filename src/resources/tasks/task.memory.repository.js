@@ -1,4 +1,4 @@
-const Repo = require('../../common/repo');
+import Repo from '../../common/repo';
 
 class TasksRepo {
     constructor() {
@@ -23,4 +23,4 @@ class TasksRepo {
     }
 }
 
-module.exports = new TasksRepo();
+export default new TasksRepo();

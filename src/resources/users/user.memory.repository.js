@@ -1,5 +1,5 @@
-const Repo = require('../../common/repo');
+import Repo from '../../common/repo';
 
 const usersRepo = new Repo();
 
-module.exports = usersRepo;
+export default usersRepo;
