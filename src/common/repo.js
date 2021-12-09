@@ -45,4 +45,4 @@ class Repo {
     }
 };
 
-module.exports = Repo;
+export default Repo;

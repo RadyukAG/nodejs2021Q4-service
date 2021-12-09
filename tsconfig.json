@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "outDir": "./built",
+        "allowJs": true,
+        "target": "es6",
+        "module": "commonjs",
+        "declaration": true,
+        "noImplicitAny": true,
+        "rootDir": ".",
+        "sourceMap": true,
+        "listFiles": true,
+        "newLine": "LF",
+        "strict": true,
+    },
+    "include": ["./src/**/*", "tsconfig.json"],
+    "settings": {
+        "node": {
+            "resolvePaths": ["node_modules/@types"],
+            "tryExtensions": [".js", ".json", ".node", ".ts", ".d.ts"]
+        },
+    }
+}

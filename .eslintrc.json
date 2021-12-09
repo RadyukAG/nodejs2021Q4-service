@@ -7,6 +7,11 @@
     "node": true
   },
   "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "rules": {
+      "@typescript-eslint/rule-name": "error"
+    },
     "sourceType": "module",
     "ecmaVersion": 2021,
     "ecmaFeatures": {
@@ -23,6 +28,7 @@
     "prettier"
   ],
   "rules": {
+    "no-explicit-any": "error",
     "import/extensions": "off",
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",
