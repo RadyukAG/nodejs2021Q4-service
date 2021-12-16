@@ -9,7 +9,7 @@ const addBoard = (board: IDraftBoard): IBoard | null => {
     return boardsRepo.addItem(newBoard);
 };
 
-const getAllBoards = () => boardsRepo.getAllItems();
+const getAllBoards = (): (IBoard | null)[] => boardsRepo.getAllItems();
 
 const getBoard = (id: string) => boardsRepo.getItem(id);
 

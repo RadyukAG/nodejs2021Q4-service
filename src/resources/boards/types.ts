@@ -1,3 +1,5 @@
+import { Item } from "../../common/repo";
+
 interface IColumn {
     id?: string;
     title: string;
@@ -10,8 +12,7 @@ interface IDraftBoard {
     columns: Array<IColumn>;
 }
 
-interface IBoard extends IDraftBoard {
-    id: string;
+interface IBoard extends Item {
     title: string;
     columns: Array<IColumn>;
 };

@@ -1,30 +1,38 @@
-import { IBoard } from '../resources/boards/types';
+// import { IBoard } from '../resources/boards/types';
+// import { IUser } from '../resources/users/types';
 
-type Item = IBoard | null;
+// type Item = IBoard | IUser | null;
 
-class Repo {
+type Item = {
+  id: string,
+}
+
+class Repo<ItemType extends Item> {
   repo: {
-    [id: string]: IBoard | null ;
+    [id: string]: ItemType | null;
   }
 
     constructor() {
       this.repo = {};
     }
   
-    addItem(item: IBoard) {
+    addItem(item: ItemType): ItemType | null {
       this.repo[item.id] = item;
       return this.repo[item.id];
     }
   
-    getAllItems() {
+    getAllItems(): (ItemType | null)[]{
       return Object.values(this.repo);
     }
   
-    getItem(id: string) {
+    getItem(id: string): ItemType | null {
       return this.repo[id];
     }
   
-    updateItem(item: IBoard) {
+    updateItem(item: ItemType): ItemType | null {
+      if (this.repo[item.id] === null) {
+          throw new Error (`Record with id ${item.id} where removed`);
+      }
       this.repo[item.id] = {
         ...this.repo[item.id],
         ...item,
@@ -48,7 +56,7 @@ class Repo {
       this.repo = {};
     }
 
-    getItemsByFieldValue(field: keyof Item, value: string | null) {
+    getItemsByFieldValue(field: keyof ItemType, value: string | null) {
       return Object.values(this.repo).filter(item => {
         if (item) {
           return item[field] === value as unknown;
@@ -58,4 +66,4 @@ class Repo {
     }
 };
 
-export default Repo;
+export { Repo, Item };

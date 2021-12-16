@@ -1,3 +1,5 @@
+import { Item } from "../../common/repo";
+
 interface DraftTask {
     id?: string;
     title: string;
@@ -8,8 +10,13 @@ interface DraftTask {
     columnId: string | null;
 }
 
-interface ITask extends DraftTask {
-    id: string;
+interface ITask extends Item {
+    title: string;
+    order: number;
+    description: string;
+    userId: string | null;
+    boardId: string;
+    columnId: string | null;
 }
 
 interface TaskParamsWithBoardId {

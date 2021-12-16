@@ -19,7 +19,7 @@ class Board {
         }
     }
 
-    getBoard() {
+    getBoard(): IBoard {
         return this.board;
     }
 }

@@ -25,7 +25,7 @@ const schema = {
     body: boardBodySchema
 }
 
-app.post<{ Body: IDraftBoard }>(URLS.BOARDS, { schema }, async (request, reply) => {
+app.post<{ Body: IDraftBoard }>(URLS.BOARDS, { schema }, async (request, reply): Promise<void> => {
     try {
         const result = boardsService.addBoard(request.body);
         reply.code(201);

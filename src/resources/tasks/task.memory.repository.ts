@@ -1,24 +1,25 @@
-import Repo from '../../common/repo';
+import { Repo } from '../../common/repo';
+import { ITask } from './types';
 
 class TasksRepo {
     repo: {
-        [id: string]: Repo;
+        [id: string]: Repo<ITask>;
     }
 
     constructor() {
         this.repo = {}
     };
 
-    createRepoForBoard(boardId: string) {
+    createRepoForBoard(boardId: string): Repo<ITask> {
         this.repo[boardId] = new Repo();
         return this.repo[boardId];
     };
 
-    checkIfBoardTasksRepoExist(boardId: string) {
+    checkIfBoardTasksRepoExist(boardId: string): boolean {
         return !!this.repo[boardId];
     };
 
-    getTasksRepo(boardId: string) {
+    getTasksRepo(boardId: string): Repo<ITask> {
         return this.checkIfBoardTasksRepoExist(boardId) ? this.repo[boardId] : this.createRepoForBoard(boardId);
     };
 

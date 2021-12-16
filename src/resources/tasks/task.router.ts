@@ -1,5 +1,5 @@
 import { FastifyReply } from 'fastify';
-import { DraftTask, FullTaskParams, TaskParamsWithBoardId, Task } from './types';
+import { DraftTask, FullTaskParams, TaskParamsWithBoardId, ITask } from './types';
 import app from '../../app';
 import URLS from '../../common/urls';
 import * as tasksService from './task.service';
@@ -88,7 +88,7 @@ app.delete<{ Params: FullTaskParams }>(URLS.TASKS_PARAM, async (request, reply: 
     }
 });
 
-app.put<{ Params: FullTaskParams, Body: Task }>(URLS.TASKS_PARAM, { schema }, async (request, reply: FastifyReply) => {
+app.put<{ Params: FullTaskParams, Body: ITask }>(URLS.TASKS_PARAM, { schema }, async (request, reply: FastifyReply) => {
     try { 
         const { boardId, taskId } = request.params;
         if (!tasksService.isTaskExists(boardId, taskId)) {
@@ -99,7 +99,7 @@ app.put<{ Params: FullTaskParams, Body: Task }>(URLS.TASKS_PARAM, { schema }, as
         const result = tasksService.updateTask({
             ...request.body,
             boardId,
-            taskId,
+            id: taskId,
         });
         reply.code(200);
         reply.header('Content-Type', 'application/json; charset=utf-8');

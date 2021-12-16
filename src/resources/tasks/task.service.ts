@@ -1,7 +1,8 @@
 import tasksRepo from './task.memory.repository';
 import Task from './task.model';
+import { ITask, DraftTask } from './types';
 
-const addTask = (task) => {
+const addTask = (task: DraftTask) => {
     const newTask = new Task(task).getTask();
     return tasksRepo.getTasksRepo(newTask.boardId).addItem(newTask);
 };
@@ -14,9 +15,13 @@ const getTaskById = (boardId: string, taskId: string) => tasksRepo.getTasksRepo(
 
 const deleteTask = (boardId: string, taskId: string) => tasksRepo.getTasksRepo(boardId).deleteItem(taskId);
 
-const updateTask = (task) => tasksRepo.getTasksRepo(task.boardId).updateItem(task);
+const updateTask = (task: ITask) => tasksRepo.getTasksRepo(task.boardId).updateItem(task);
 
-const getTasksByField = (field: string, value: string) => tasksRepo.getAllBoards().map(repo => repo.getItemsByFieldValue(field, value)).flat(); 
+const getTasksByField = (field: keyof ITask, value: string): (ITask | null)[] => 
+    tasksRepo.getAllBoards()
+        .filter(repo => repo !== null)
+        .map(repo => repo.getItemsByFieldValue(field, value))
+        .flat(); 
 
 export {
     addTask,
