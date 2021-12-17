@@ -1,8 +1,3 @@
-// import { IBoard } from '../resources/boards/types';
-// import { IUser } from '../resources/users/types';
-
-// type Item = IBoard | IUser | null;
-
 type Item = {
   id: string,
 }
