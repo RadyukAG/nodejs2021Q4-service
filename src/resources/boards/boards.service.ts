@@ -4,16 +4,16 @@ import tasksRepo from '../tasks/task.memory.repository';
 import { IBoard, IDraftBoard } from './types';
 
 
-const addBoard = (board: IDraftBoard): IBoard | null => {
+const addBoard = (board: IDraftBoard): IBoard | undefined | null => {
     const newBoard = new Board(board).getBoard();
     return boardsRepo.addItem(newBoard);
 };
 
-const getAllBoards = (): (IBoard | null)[] => boardsRepo.getAllItems();
+const getAllBoards = (): (IBoard | undefined | null)[] => boardsRepo.getAllItems();
 
 const getBoard = (id: string) => boardsRepo.getItem(id);
 
-const updateBoard = (id: string, board: IBoard) => boardsRepo.updateItem({ ...board, id });
+const updateBoard = (id: string, board: IBoard) => boardsRepo.updateItem(id, board);
 
 const isBoardExists = (id: string) => boardsRepo.checkItem(id);
 

@@ -4,50 +4,54 @@ type Item = {
 
 class Repo<ItemType extends Item> {
   repo: {
-    [id: string]: ItemType | null;
+    [id: string]: ItemType | undefined | null;
   }
 
     constructor() {
       this.repo = {};
     }
   
-    addItem(item: ItemType): ItemType | null {
+    addItem(item: ItemType): ItemType | undefined | null {
       this.repo[item.id] = item;
       return this.repo[item.id];
     }
   
-    getAllItems(): (ItemType | null)[]{
+    getAllItems(): (ItemType | undefined | null)[]{
       return Object.values(this.repo);
     }
   
-    getItem(id: string): ItemType | null {
+    getItem(id: string): ItemType | undefined | null {
       return this.repo[id];
     }
   
-    updateItem(item: ItemType): ItemType | null {
-      if (this.repo[item.id] === null) {
-          throw new Error (`Record with id ${item.id} where removed`);
+    updateItem(id: string, item: ItemType | null): ItemType | undefined | null {
+      if (!this.repo[id]) {
+        throw new Error (`Record with id ${id} where removed`);
       }
-      this.repo[item.id] = {
-        ...this.repo[item.id],
+      if (item === null) {
+        this.repo[id] = item;
+        return this.repo[id];
+      }
+      this.repo[id] = {
+        ...this.repo[id],
         ...item,
       }
-      return this.repo[item.id];
+      return this.repo[id];
     }
   
     deleteItem(id: string) {
       if (this.repo[id]) {
-        this.repo[id] = null;
+        delete this.repo[id];
         return true;
       }
       return false;
     };
 
-    checkItem (id: string) {
-      return !!this.repo[id];
+    checkItem (id: string): boolean {
+      return this.repo.hasOwnProperty(id);
     };
 
-    deleteAllItems() {
+    deleteAllItems(): void {
       this.repo = {};
     }
 

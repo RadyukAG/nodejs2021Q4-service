@@ -39,7 +39,7 @@ app.post<{ Params: FullTaskParams, Body: DraftTask }>(URLS.TASKS, { schema }, as
 
 app.get<{ Params: TaskParamsWithBoardId }>(URLS.TASKS, async (request, reply: FastifyReply) => {
     try {
-        const result = tasksService.addTasksByBoardId(request.params.boardId);
+        const result = tasksService.getTasksByBoardId(request.params.boardId);
         reply.code(200);
         reply.header('Content-Type', 'application/json; charset=utf-8');
         reply.send(result);
@@ -53,14 +53,15 @@ app.get<{ Params: TaskParamsWithBoardId }>(URLS.TASKS, async (request, reply: Fa
 
 app.get<{ Params: FullTaskParams }>(URLS.TASKS_PARAM, async (request, reply: FastifyReply) => {
     try {
-        const task = tasksService.getTaskById(request.params.boardId, request.params.taskId);
-        if (!task) {
+        const { boardId, taskId } = request.params;
+        const task = tasksService.getTaskById(boardId, taskId);
+        if (!tasksService.isTaskExists(boardId, taskId)) {
             reply.code(404);
             reply.send('Task not found');
         } else {
             reply.code(200);
             reply.header('Content-Type', 'application/json; charset=utf-8');
-            reply.send(task);
+            task === null ? reply.send({ userId: null }) : reply.send(task);
         }    
     } catch(err) {
         if (err instanceof Error) {

@@ -40,8 +40,8 @@ class User {
  * @param user instance of IUser or null
  * @returns null, if user is null, or user without password
  */
-  static toResponse(user: IUser | null): IUserToResponse | null {
-    if (user === null) {
+  static toResponse(user: IUser | undefined | null): IUserToResponse | undefined | null {
+    if (!user) {
       return user;
     }
     const { id, name, login } = user;

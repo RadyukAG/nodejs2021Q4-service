@@ -4,16 +4,16 @@ import { IDraftUser, IUser } from './types';
 /**
  * Get all users, store in repo
  * 
- * @returns array of IUser instances and nulls, saved in users repo
+ * @returns array items, saved in users repo
  */
-const getAll = (): (IUser | null)[] => usersRepo.getAllItems();
+const getAll = (): (IUser | undefined | null)[] => usersRepo.getAllItems();
 /**
  * Add user to repo
  * 
  * @param user - instance of IDraftUser
  * @returns user, saved in users repo
  */
-const addUser = (user: IDraftUser): IUser | null => {
+const addUser = (user: IDraftUser): IUser | undefined | null => {
     const newUser = new User(user).getUser();
     return usersRepo.addItem(newUser);
 };
@@ -23,7 +23,7 @@ const addUser = (user: IDraftUser): IUser | null => {
  * @param id - string id of a user, 
  * @returns - User from repo, or null, if it was deleted.
  */
-const getUser = (id: string): IUser | null => usersRepo.getItem(id);
+const getUser = (id: string): IUser | undefined | null => usersRepo.getItem(id);
 /**
  * Update user in repo
  * 
@@ -31,7 +31,7 @@ const getUser = (id: string): IUser | null => usersRepo.getItem(id);
  * @param user - user with changed fields, that should update values of specific user in repo.
  * @returns updated user. If null, repo method will throw error.
  */
-const updateUser = (id: string, user: IDraftUser): IUser | null => usersRepo.updateItem({ ...user, id });
+const updateUser = (id: string, user: IDraftUser): IUser | undefined | null => usersRepo.updateItem(id, { ...user, id });
 /**
  * Remove user from repo
  * 

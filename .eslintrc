@@ -44,6 +44,8 @@
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "global-require": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "no-unused-expressions": "off",
+    "no-prototype-builtins": "off"
   }
 }

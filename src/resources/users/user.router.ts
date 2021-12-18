@@ -89,8 +89,8 @@ app.delete<{ Params: UserParamsWithId }>(URLS.GET_USER, async (request, reply) =
       const userTasks = tasksService.getTasksByField('userId', request.params.id);
       if (userTasks) {
         userTasks.forEach(task => {
-          if (task !== null)
-          tasksService.deleteTask(task.boardId, task.id);
+          if (task)
+          tasksService.removeTask(task.boardId, task.id);
         });
       }
       reply.code(204).send();
