@@ -11,11 +11,15 @@
 git clone {repository URL}
 ```
 
+### Branch - task5-ts-migration
+
 ## Installing NPM modules
 
 ```
 npm install
 ```
+### If you have troubles with packages installation, please remove package-lock.json and try again.
+### It seems there is a problem with my version of npm.
 
 ## Running application
 
