@@ -61,7 +61,7 @@ app.get<{ Params: FullTaskParams }>(URLS.TASKS_PARAM, async (request, reply: Fas
         } else {
             reply.code(200);
             reply.header('Content-Type', 'application/json; charset=utf-8');
-            task === null ? reply.send({ userId: null }) : reply.send(task);
+            reply.send(task);
         }    
     } catch(err) {
         if (err instanceof Error) {

@@ -1,16 +1,17 @@
-import RepoWithSpecialDeletion from './task.memory.RepoWithSpecialDeletion';
+import { Repo } from '../../common/repo';
+import { ITask } from './types';
 
 class TasksRepo {
     repo: {
-        [id: string]: RepoWithSpecialDeletion;
-    }
+        [id: string]: Repo<ITask>;
+      }
 
     constructor() {
-        this.repo = {}
-    };
+        this.repo = {};
+    }
 
-    createRepoForBoard(boardId: string): RepoWithSpecialDeletion {
-        this.repo[boardId] = new RepoWithSpecialDeletion();
+    createRepoForBoard(boardId: string): Repo<ITask> {
+        this.repo[boardId] = new Repo<ITask>();
         return this.repo[boardId];
     };
 
@@ -18,7 +19,7 @@ class TasksRepo {
         return !!this.repo[boardId];
     };
 
-    getTasksRepo(boardId: string): RepoWithSpecialDeletion {
+    getTasksRepo(boardId: string): Repo<ITask> {
         return this.checkIfBoardTasksRepoExist(boardId) ? this.repo[boardId] : this.createRepoForBoard(boardId);
     };
 

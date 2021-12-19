@@ -38,9 +38,9 @@ class User {
  * Remove password from user object, in order to return data 
  * 
  * @param user instance of IUser or null
- * @returns null, if user is null, or user without password
+ * @returns user param, if user is null or undefined, or user without password
  */
-  static toResponse(user: IUser | undefined | null): IUserToResponse | undefined | null {
+  static toResponse(user: IUser | undefined): IUserToResponse | undefined {
     if (!user) {
       return user;
     }

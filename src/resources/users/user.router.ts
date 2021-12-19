@@ -90,7 +90,10 @@ app.delete<{ Params: UserParamsWithId }>(URLS.GET_USER, async (request, reply) =
       if (userTasks) {
         userTasks.forEach(task => {
           if (task)
-          tasksService.removeTask(task.boardId, task.id);
+          tasksService.updateTask({
+            ...task,
+            userId: null,
+          });
         });
       }
       reply.code(204).send();

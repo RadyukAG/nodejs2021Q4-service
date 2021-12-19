@@ -4,33 +4,32 @@ type Item = {
 
 class Repo<ItemType extends Item> {
   repo: {
-    [id: string]: ItemType | undefined | null;
+    [id: string]: ItemType | undefined;
   }
 
+/**
+ * Create new object as a repo.
+ */
     constructor() {
       this.repo = {};
     }
   
-    addItem(item: ItemType): ItemType | undefined | null {
+    addItem(item: ItemType): ItemType | undefined {
       this.repo[item.id] = item;
       return this.repo[item.id];
     }
   
-    getAllItems(): (ItemType | undefined | null)[]{
+    getAllItems(): (ItemType | undefined)[]{
       return Object.values(this.repo);
     }
   
-    getItem(id: string): ItemType | undefined | null {
+    getItem(id: string): ItemType | undefined {
       return this.repo[id];
     }
   
-    updateItem(id: string, item: ItemType | null): ItemType | undefined | null {
+    updateItem(id: string, item: ItemType): ItemType | undefined {
       if (!this.repo[id]) {
         throw new Error (`Record with id ${id} where removed`);
-      }
-      if (item === null) {
-        this.repo[id] = item;
-        return this.repo[id];
       }
       this.repo[id] = {
         ...this.repo[id],
