@@ -98,6 +98,7 @@ app.delete<{ Params: BoardParamsWithId }>(URLS.BOARDS_PARAM, (request, reply) =>
             reply.send('Board not found');
             return;
         }
+        request.log.error('Test log');
         boardsService.deleteBoard(request.params.id);
         reply.code(204).send();
     } catch (err) {

@@ -19,7 +19,7 @@ const schema = {
   body: addUserRequestBodySchema
 }
 
-app.post<{ Body: IDraftUser }>(URLS.ADD_USER, { schema }, async (request, reply) => {
+app.post<{ Body: IDraftUser }>(URLS.USER, { schema }, async (request, reply) => {
   try {
     const result = usersService.addUser(request.body);
     reply.code(201);
@@ -33,7 +33,7 @@ app.post<{ Body: IDraftUser }>(URLS.ADD_USER, { schema }, async (request, reply)
   }
 });
 
-app.get(URLS.ADD_USER, async (request, reply) => {
+app.get(URLS.USER, async (request, reply) => {
   try {
     const result = usersService.getAll();
     reply.code(200);
@@ -47,9 +47,10 @@ app.get(URLS.ADD_USER, async (request, reply) => {
   }
 });
 
-app.get<{ Params: { id: string } }>(URLS.GET_USER, async (request, reply) => {
+app.get<{ Params: { id: string } }>(URLS.USER_PARAM, async (request, reply) => {
   try {
-    const user = usersService.getUser(request.params.id);
+    const { id } = request.params;
+    const user = usersService.getUser(id);
     if (!user) {
       reply.code(404);
       reply.send('User not found');
@@ -66,9 +67,10 @@ app.get<{ Params: { id: string } }>(URLS.GET_USER, async (request, reply) => {
   }
 });
 
-app.put<{ Params: { id: string }, Body: IUser}>(URLS.GET_USER, { schema }, async (request, reply) => {
+app.put<{ Params: UserParamsWithId, Body: IUser}>(URLS.USER_PARAM, { schema }, async (request, reply) => {
   try {
-    const result = usersService.updateUser(request.params.id, request.body);
+    const { id } = request.params;
+    const result = usersService.updateUser(id, request.body);
     reply.code(200);
     reply.header('Content-Type', 'application/json; charset=utf-8');
     reply.send(User.toResponse(result));
@@ -80,13 +82,14 @@ app.put<{ Params: { id: string }, Body: IUser}>(URLS.GET_USER, { schema }, async
   }
 });
 
-app.delete<{ Params: UserParamsWithId }>(URLS.GET_USER, async (request, reply) => {
+app.delete<{ Params: UserParamsWithId }>(URLS.USER_PARAM, async (request, reply) => {
   try {
-    const result = usersService.deleteUser(request.params.id);
+    const { id } = request.params;
+    const result = usersService.deleteUser(id);
     if (!result) {
       reply.code(404).send('User not found');
     } else {
-      const userTasks = tasksService.getTasksByField('userId', request.params.id);
+      const userTasks = tasksService.getTasksByField('userId', id);
       if (userTasks) {
         userTasks.forEach(task => {
           if (task)
