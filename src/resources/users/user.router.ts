@@ -20,6 +20,7 @@ const schema = {
 }
 
 app.post<{ Body: IDraftUser }>(URLS.USER, { schema }, async (request, reply) => {
+  request.log.info({ id: request.id, body: request.body }, 'Request body');
   const result = usersService.addUser(request.body);
   reply.code(201);
   reply.header('Content-Type', 'application/json; charset=utf-8');
@@ -47,6 +48,7 @@ app.get<{ Params: { id: string } }>(URLS.USER_PARAM, async (request, reply) => {
 });
 
 app.put<{ Params: UserParamsWithId, Body: IUser}>(URLS.USER_PARAM, { schema }, async (request, reply) => {
+  request.log.info({ id: request.id, body: request.body }, 'Request body');
   const { id } = request.params;
   const result = usersService.updateUser(id, request.body);
   reply.code(200);

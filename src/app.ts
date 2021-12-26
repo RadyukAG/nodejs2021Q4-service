@@ -14,7 +14,6 @@ const app = fastify({
                 method: request.method,
                 url: request.url,
                 parameters: request.params,
-                body: request.body,
               };
             }
         }    

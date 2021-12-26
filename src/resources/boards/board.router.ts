@@ -26,6 +26,7 @@ const schema = {
 }
 
 app.post<{ Body: IDraftBoard }>(URLS.BOARDS, { schema }, async (request, reply): Promise<void> => {
+    request.log.info({ id: request.id, body: request.body }, 'Request body');
     const result = boardsService.addBoard(request.body);
     reply.code(201);
     reply.header('Content-Type', 'application/json; charset=utf-8');
@@ -52,6 +53,7 @@ app.get<{ Params: BoardParamsWithId }>(URLS.BOARDS_PARAM, async (request, reply)
 });
 
 app.put<{ Params: BoardParamsWithId, Body: IBoard}>(URLS.BOARDS_PARAM, { schema }, async (request, reply) => {
+    request.log.info({ id: request.id, body: request.body }, 'Request body');
     if (!boardsService.isBoardExists(request.params.id)) {
         reply.code(400);
         reply.send('Bad request');
@@ -69,7 +71,6 @@ app.delete<{ Params: BoardParamsWithId }>(URLS.BOARDS_PARAM, (request, reply) =>
         reply.send('Board not found');
         return;
     }
-    request.log.error('Test log');
     boardsService.deleteBoard(request.params.id);
     reply.code(204).send();
 });

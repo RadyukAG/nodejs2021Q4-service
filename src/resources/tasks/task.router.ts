@@ -21,6 +21,7 @@ const schema = {
 }
 
 app.post<{ Params: FullTaskParams, Body: DraftTask }>(URLS.TASKS, { schema }, async (request, reply: FastifyReply) => {
+    request.log.info({ id: request.id, body: request.body }, 'Request body');
     const result = tasksService.addTask({
         ...request.body,
         boardId: request.params.boardId,
@@ -62,6 +63,7 @@ app.delete<{ Params: FullTaskParams }>(URLS.TASKS_PARAM, async (request, reply: 
 });
 
 app.put<{ Params: FullTaskParams, Body: ITask }>(URLS.TASKS_PARAM, { schema }, async (request, reply: FastifyReply) => {
+    request.log.info({ id: request.id, body: request.body }, 'Request body');
     const { boardId, taskId } = request.params;
     if (!tasksService.isTaskExists(boardId, taskId)) {
         reply.code(404);
