@@ -1,10 +1,11 @@
 import fastify from 'fastify';
+import config from './common/config';
 
 const path = require('path');
 
 const app = fastify({
     logger: {
-        level: 'info',
+        level: config.LOG_LEVEL || 'info',
         file: path.resolve('logs/log.txt'),
         serializers: {
           res (reply) {
