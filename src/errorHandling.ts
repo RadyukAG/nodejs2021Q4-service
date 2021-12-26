@@ -15,3 +15,12 @@ process.on('uncaughtException', (err: unknown) => {
     }
     process.exit(1);
 });
+
+process.on('unhandledRejection', (err: unknown) => {
+    if (err instanceof Error) {
+        app.log.error(`Unhandled rejection. Message: ${err.message}`);
+    } else {
+        app.log.error(`Unhandled rejection. Message: ${err}`);
+    }
+    process.exit(1);
+})
