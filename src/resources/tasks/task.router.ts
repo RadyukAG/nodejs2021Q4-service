@@ -1,6 +1,8 @@
-const app = require('../../app');
-const URLS = require('../../common/urls');
-const tasksService = require('./task.service');
+import { FastifyReply } from 'fastify';
+import { DraftTask, FullTaskParams, TaskParamsWithBoardId, ITask } from './types';
+import app from '../../app';
+import URLS from '../../common/urls';
+import * as tasksService from './task.service';
 
 const taskBodySchema = {
     type: 'object',
@@ -18,7 +20,7 @@ const schema = {
     body: taskBodySchema
 }
 
-app.post(URLS.TASKS, { schema }, async (request, reply) => {
+app.post<{ Params: FullTaskParams, Body: DraftTask }>(URLS.TASKS, { schema }, async (request, reply: FastifyReply) => {
     try {
       const result = tasksService.addTask({
           ...request.body,
@@ -27,29 +29,33 @@ app.post(URLS.TASKS, { schema }, async (request, reply) => {
       reply.code(201);
       reply.header('Content-Type', 'application/json; charset=utf-8');
       reply.send(result);
-    } catch(err) {
-        app.log.error(`Error occurred: ${err.message}`);
+    } catch(err: unknown) {
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });
 
-app.get(URLS.TASKS, async (request, reply) => {
+app.get<{ Params: TaskParamsWithBoardId }>(URLS.TASKS, async (request, reply: FastifyReply) => {
     try {
-        const result = tasksService.addTasksByBoardId(request.params.boardId);
+        const result = tasksService.getTasksByBoardId(request.params.boardId);
         reply.code(200);
         reply.header('Content-Type', 'application/json; charset=utf-8');
         reply.send(result);
     } catch(err) {
-        app.log.error(`Error occurred: ${err.message}`);
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });
 
-app.get(URLS.TASKS_PARAM, async (request, reply) => {
+app.get<{ Params: FullTaskParams }>(URLS.TASKS_PARAM, async (request, reply: FastifyReply) => {
     try {
-console.log(request.params.boardId, request.params.taskId);
-        const task = tasksService.getTaskById(request.params.boardId, request.params.taskId);
-        if (!task) {
+        const { boardId, taskId } = request.params;
+        const task = tasksService.getTaskById(boardId, taskId);
+        if (!tasksService.isTaskExists(boardId, taskId)) {
             reply.code(404);
             reply.send('Task not found');
         } else {
@@ -58,12 +64,14 @@ console.log(request.params.boardId, request.params.taskId);
             reply.send(task);
         }    
     } catch(err) {
-        app.log.error(`Error occurred: ${err.message}`);
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });
 
-app.delete(URLS.TASKS_PARAM, async (request, reply) => {
+app.delete<{ Params: FullTaskParams }>(URLS.TASKS_PARAM, async (request, reply: FastifyReply) => {
     try {
         const { boardId, taskId } = request.params;
         if (!tasksService.isTaskExists(boardId, taskId)) {
@@ -74,12 +82,14 @@ app.delete(URLS.TASKS_PARAM, async (request, reply) => {
         tasksService.deleteTask(boardId, taskId);
         reply.code(204).send();
     } catch(err) {
-        app.log.error(`Error occurred: ${err.message}`);
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });
 
-app.put(URLS.TASKS_PARAM, { schema }, async (request, reply) => {
+app.put<{ Params: FullTaskParams, Body: ITask }>(URLS.TASKS_PARAM, { schema }, async (request, reply: FastifyReply) => {
     try { 
         const { boardId, taskId } = request.params;
         if (!tasksService.isTaskExists(boardId, taskId)) {
@@ -90,13 +100,15 @@ app.put(URLS.TASKS_PARAM, { schema }, async (request, reply) => {
         const result = tasksService.updateTask({
             ...request.body,
             boardId,
-            taskId,
+            id: taskId,
         });
         reply.code(200);
         reply.header('Content-Type', 'application/json; charset=utf-8');
         reply.send(result);
-    } catch(err) {
-        app.log.error(`Error occurred: ${err.message}`);
+    } catch(err: unknown) {
+        if (err instanceof Error) {
+            app.log.error(`Error occurred: ${err.message}`);
+        }
         reply.code(500).send();
     }
 });

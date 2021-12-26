@@ -8,4 +8,4 @@ const URLS = {
     TASKS_PARAM: '/boards/:boardId/tasks/:taskId',
 };
 
-module.exports = URLS;
+export default URLS;
