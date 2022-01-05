@@ -37,7 +37,8 @@
     "prettier"
   ],
   "rules": {
-    "no-explicit-any": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-var-requires": "off",
     "import/extensions": "off",
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",

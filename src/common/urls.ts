@@ -1,7 +1,7 @@
 const URLS = {
     DOCS: '/docs',
-    ADD_USER: '/users',
-    GET_USER: '/users/:id',
+    USER: '/users',
+    USER_PARAM: '/users/:id',
     BOARDS: '/boards',
     BOARDS_PARAM: '/boards/:id',
     TASKS: '/boards/:boardId/tasks',

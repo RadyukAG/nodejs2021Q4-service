@@ -4,6 +4,8 @@ import './resources/users/user.router';
 import './resources/boards/board.router';
 import './resources/tasks/task.router';
 import './addDocs';
+import './errorHandling';
+
 /**
  * Runs the server
  */

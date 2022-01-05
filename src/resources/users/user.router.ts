@@ -19,89 +19,59 @@ const schema = {
   body: addUserRequestBodySchema
 }
 
-app.post<{ Body: IDraftUser }>(URLS.ADD_USER, { schema }, async (request, reply) => {
-  try {
-    const result = usersService.addUser(request.body);
-    reply.code(201);
-    reply.header('Content-Type', 'application/json; charset=utf-8');
-    reply.send(User.toResponse(result));
-  } catch(err) {
-    if (err instanceof Error) {
-      app.log.error(`Error occurred: ${err.message}`);
-  }
-      reply.code(500).send();
-  }
+app.post<{ Body: IDraftUser }>(URLS.USER, { schema }, async (request, reply) => {
+  request.log.info({ id: request.id, body: request.body }, 'Request body');
+  const result = usersService.addUser(request.body);
+  reply.code(201);
+  reply.header('Content-Type', 'application/json; charset=utf-8');
+  reply.send(User.toResponse(result));
 });
 
-app.get(URLS.ADD_USER, async (request, reply) => {
-  try {
-    const result = usersService.getAll();
+app.get(URLS.USER, async (request, reply) => {
+  const result = usersService.getAll();
+  reply.code(200);
+  reply.header('Content-Type', 'application/json; charset=utf-8');
+  reply.send(result.map(User.toResponse));
+});
+
+app.get<{ Params: { id: string } }>(URLS.USER_PARAM, async (request, reply) => {
+  const { id } = request.params;
+  const user = usersService.getUser(id);
+  if (!user) {
+    reply.code(404);
+    reply.send('User not found');
+  } else {
     reply.code(200);
     reply.header('Content-Type', 'application/json; charset=utf-8');
-    reply.send(result.map(User.toResponse))
-  } catch(err) {
-    if (err instanceof Error) {
-      app.log.error(`Error occurred: ${err.message}`);
-  }
-    reply.code(500).send();
-  }
+    reply.send(User.toResponse(user));
+  };
 });
 
-app.get<{ Params: { id: string } }>(URLS.GET_USER, async (request, reply) => {
-  try {
-    const user = usersService.getUser(request.params.id);
-    if (!user) {
-      reply.code(404);
-      reply.send('User not found');
-    } else {
-      reply.code(200);
-      reply.header('Content-Type', 'application/json; charset=utf-8');
-      reply.send(User.toResponse(user));
-    }
-  } catch(err) {
-    if (err instanceof Error) {
-      app.log.error(`Error occurred: ${err.message}`);
-  }
-    reply.code(500).send();
-  }
+app.put<{ Params: UserParamsWithId, Body: IUser}>(URLS.USER_PARAM, { schema }, async (request, reply) => {
+  request.log.info({ id: request.id, body: request.body }, 'Request body');
+  const { id } = request.params;
+  const result = usersService.updateUser(id, request.body);
+  reply.code(200);
+  reply.header('Content-Type', 'application/json; charset=utf-8');
+  reply.send(User.toResponse(result));
 });
 
-app.put<{ Params: { id: string }, Body: IUser}>(URLS.GET_USER, { schema }, async (request, reply) => {
-  try {
-    const result = usersService.updateUser(request.params.id, request.body);
-    reply.code(200);
-    reply.header('Content-Type', 'application/json; charset=utf-8');
-    reply.send(User.toResponse(result));
-  } catch(err) {
-    if (err instanceof Error) {
-      app.log.error(`Error occurred: ${err.message}`);
-  }
-      reply.code(500).send();
-  }
-});
-
-app.delete<{ Params: UserParamsWithId }>(URLS.GET_USER, async (request, reply) => {
-  try {
-    const result = usersService.deleteUser(request.params.id);
-    if (!result) {
-      reply.code(404).send('User not found');
-    } else {
-      const userTasks = tasksService.getTasksByField('userId', request.params.id);
-      if (userTasks) {
-        userTasks.forEach(task => {
-          if (task)
-          tasksService.updateTask({
-            ...task,
-            userId: null,
-          });
+app.delete<{ Params: UserParamsWithId }>(URLS.USER_PARAM, async (request, reply) => {
+  const { id } = request.params;
+  const result = usersService.deleteUser(id);
+  if (!result) {
+    reply.code(404).send('User not found');
+  } else {
+    const userTasks = tasksService.getTasksByField('userId', id);
+    if (userTasks) {
+      userTasks.forEach(task => {
+        if (task)
+        tasksService.updateTask({
+          ...task,
+          userId: null,
         });
-      }
-      reply.code(204).send();
+      });
     }
-  } catch(err) {
-    if (err instanceof Error) {
-      app.log.error(`Error occurred: ${err.message}`);
-  }
-    reply.code(500).send();
+    reply.code(204).send();
   }
 });
