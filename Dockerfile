@@ -1,5 +1,6 @@
 FROM node:16-alpine
-WORKDIR /NODEJS-2021Q4-SERVICE
-COPY . ./
+WORKDIR /NODEJS-2021Q4-SERVICE/app
+COPY package*.json .
 RUN npm install
-CMD ["nodemon", "src/server.ts"]
+COPY . .
+CMD ["npm", "start"]

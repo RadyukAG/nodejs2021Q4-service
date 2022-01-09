@@ -1,3 +1,2 @@
-FROM postgres:12.2-alpine
-
-ADD init.sql /docker-entrypoint-initdb.d
+FROM postgres:13.3-alpine
+RUN apk upgrade libxm12
