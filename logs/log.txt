@@ -1,4 +1,0 @@
-{"level":30,"time":1640527090009,"pid":86063,"hostname":"EPBYMINW098A","msg":"Server listening at http://127.0.0.1:4000"}
-{"level":30,"time":1640527904180,"pid":87046,"hostname":"EPBYMINW098A","msg":"Server listening at http://127.0.0.1:4000"}
-{"level":30,"time":1640536676749,"pid":90379,"hostname":"EPBYMINW098A","msg":"Server listening at http://127.0.0.1:4000"}
-{"level":30,"time":1640536688764,"pid":90414,"hostname":"EPBYMINW098A","msg":"Server listening at http://127.0.0.1:4000"}
