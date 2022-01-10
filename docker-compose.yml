@@ -9,8 +9,10 @@ services:
     environment:
       PORT: ${PORT}
     volumes:
-      - .logs:/usr/app/logs
+        - .logs:/usr/app/logs
     restart: always
+    networks:
+      - app-network
 
   database:
     build: "./db"
@@ -22,4 +24,10 @@ services:
         POSTGRES_USER: ${POSTGRES_USER}
     volumes:
       - ./pgdb:/var/lib/postgresql/data/
-    restart: always        
+    restart: always
+    networks:
+        - app-network
+    
+networks:
+  app-network:
+    driver: bridge    
